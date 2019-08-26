@@ -5,6 +5,7 @@
 // TODO Lightmap
 // TODO 法线贴图
 // TODO Add Pass
+// TODO AO && Emission
 // *********
 
 Shader "Unlit/PBRBase"
@@ -13,8 +14,10 @@ Shader "Unlit/PBRBase"
     {
         _Diffuse ("Texture", 2D) = "white" {}
         _TintColor ("Tint Color", Color) = (1,1,1,1)
-        [NoScaleOffset]_Normal ("Normal", 2D) = "bump" {}
-        [NoScaleOffset]_MSO ("Metallic, Smoothness, AO", 2D) = "white" {}
+        [Normal][NoScaleOffset]_Normal ("Normal", 2D) = "bump" {}
+        [NoScaleOffset]_Metallic ("Metallic (R)", 2D) = "white" {}
+        [NoScaleOffset]_Smoothness ("Smoothness (G)", 2D) = "white" {}
+        [NoScaleOffset]_AO ("AO (B)", 2D) = "white" {}
         [NoScaleOffset]_MetallicScale ("Metallic Scale", Range(0,1)) = 1
         [NoScaleOffset]_SmoothnessScale ("Smoothness Scale", Range(0,1)) = 1
         [NoScaleOffset]_AOScale ("AO Scale", Range(0,1)) = 1
@@ -37,7 +40,6 @@ Shader "Unlit/PBRBase"
             #include "Lighting.cginc"
             #include "AutoLight.cginc"
             #include "./include/BRDF.cginc"
-            #include "./include/GI.cginc"
 
             struct appdata
             {
@@ -59,11 +61,10 @@ Shader "Unlit/PBRBase"
                 float3 tangent : TEXCOORD3;
                 float3 binormal : TEXCOORD4;
 
-                half4 ambientOrLightmapUV : TEXCOORD5;
-                // UNITY_SHADOW_COORDS(6)
+                // UNITY_SHADOW_COORDS(5)
             };
 
-            texture2D _Diffuse,_Normal,_MSO,_Emission;
+            texture2D _Diffuse,_Normal,_Metallic,_Smoothness,_AO,_Emission;
             SamplerState sampler_Diffuse;
             float4 _Diffuse_ST;
             half _MetallicScale,_SmoothnessScale,_AOScale;
@@ -78,7 +79,6 @@ Shader "Unlit/PBRBase"
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 o.tangent = normalize(UnityObjectToWorldDir(v.tangent.xyz));
                 o.binormal = normalize(cross(o.normal,o.tangent) * v.tangent.w);
-                o.ambientOrLightmapUV = VertexGIForward(v.uv1, v.uv2, o.worldPos, o.normal);
                 // UNITY_TRANSFER_SHADOW(o,v.uv1);
                 return o;
             }
@@ -92,16 +92,20 @@ Shader "Unlit/PBRBase"
                 half3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
                 half3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
                 half3 halfDir = normalize(viewDir + lightDir);
-                half3 normalDir = normalize(i.normal);
+                half3 tangentNormal = UnpackNormal(_Normal.Sample(sampler_Diffuse, i.uv));
+                
+                half3 normalDir = normalize(
+                                    tangentNormal.x * i.tangent +
+                                    tangentNormal.y * i.binormal +
+                                    tangentNormal.z * i.normal
+                                );
 
                 half nv = max(dot(normalDir, viewDir), 0.0);
                 half nl = saturate(dot(normalDir,lightDir));
 
-                // mso a通道没有用
-                fixed4 mso = _MSO.Sample(sampler_Diffuse,i.uv) * half4(_MetallicScale,_SmoothnessScale,_AOScale,1);
-                half metallic = mso.r;
-                half smoothness = mso.g;
-                half ao = mso.b;
+                half metallic = _Metallic.Sample(sampler_Diffuse,i.uv).r * _MetallicScale;
+                half smoothness = _Smoothness.Sample(sampler_Diffuse,i.uv).g * _SmoothnessScale;
+                half ao = _AO.Sample(sampler_Diffuse,i.uv).b * _AOScale;
                 
                 half perceptualRoughness =  1 - smoothness;
                 half roughness = sqrt(max(0.002, perceptualRoughness));
