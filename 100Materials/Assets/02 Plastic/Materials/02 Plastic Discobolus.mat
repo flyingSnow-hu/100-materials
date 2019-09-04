@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 01 Metal Discobolus
+  m_Name: 02 Plastic Discobolus
   m_Shader: {fileID: 4800000, guid: 2c598a31aba552f46b05a2ff8713615a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -93,11 +93,12 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
-    - _MetallicScale: 1
+    - _MetallicScale: 0
     - _Mode: 0
+    - _NormalScale: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SmoothnessScale: 0.868
+    - _SmoothnessScale: 0.804
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

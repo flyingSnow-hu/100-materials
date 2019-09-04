@@ -1,11 +1,10 @@
 ﻿// *********
 // Basic PBR Shader
 // by flyingsnow.hu@gmail.com 
-// TODO Shadow
-// TODO Lightmap
-// TODO 法线贴图
-// TODO Add Pass
 // TODO AO && Emission
+// TODO Shadow
+// TODO Add Pass
+// TODO Lightmap
 // *********
 
 Shader "Unlit/PBRBase"
@@ -18,6 +17,7 @@ Shader "Unlit/PBRBase"
         [NoScaleOffset]_Metallic ("Metallic (R)", 2D) = "white" {}
         [NoScaleOffset]_Smoothness ("Smoothness (G)", 2D) = "white" {}
         [NoScaleOffset]_AO ("AO (B)", 2D) = "white" {}
+        [NoScaleOffset]_NormalScale ("Normal Scale", Range(0,2)) = 1
         [NoScaleOffset]_MetallicScale ("Metallic Scale", Range(0,1)) = 1
         [NoScaleOffset]_SmoothnessScale ("Smoothness Scale", Range(0,1)) = 1
         [NoScaleOffset]_AOScale ("AO Scale", Range(0,1)) = 1
@@ -67,7 +67,7 @@ Shader "Unlit/PBRBase"
             texture2D _Diffuse,_Normal,_Metallic,_Smoothness,_AO,_Emission;
             SamplerState sampler_Diffuse;
             float4 _Diffuse_ST;
-            half _MetallicScale,_SmoothnessScale,_AOScale;
+            half _NormalScale,_MetallicScale,_SmoothnessScale,_AOScale;
             half4 _TintColor;
 
             v2f vert (appdata v)
@@ -93,6 +93,10 @@ Shader "Unlit/PBRBase"
                 half3 lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
                 half3 halfDir = normalize(viewDir + lightDir);
                 half3 tangentNormal = UnpackNormal(_Normal.Sample(sampler_Diffuse, i.uv));
+                tangentNormal = normalize(tangentNormal);
+                tangentNormal.z += 0.001;
+                tangentNormal.xy *= _NormalScale;
+                tangentNormal = normalize(tangentNormal);
                 
                 half3 normalDir = normalize(
                                     tangentNormal.x * i.tangent +
