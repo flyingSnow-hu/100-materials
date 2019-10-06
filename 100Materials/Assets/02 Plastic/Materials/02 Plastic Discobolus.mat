@@ -95,10 +95,10 @@ Material:
     - _Metallic: 0
     - _MetallicScale: 0
     - _Mode: 0
-    - _NormalScale: 2
+    - _NormalScale: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SmoothnessScale: 0.804
+    - _SmoothnessScale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
