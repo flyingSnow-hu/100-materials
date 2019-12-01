@@ -2,44 +2,46 @@
 ----
 100 materials of Unity
 
-00. 基本 PBR
+00. 基本 PBR / Basic PBR
 
-### 基本材质
-01. 金属
-02. 塑料
-03. 木头
-04. 布料
-05. 玉器
+### 基本材质 / Basic materials
+01. 金属 / Metal
+02. 塑料 / Plastic
+03. 木头 / Wood
+04. 布料 / Cloth
+05. 玉器 / Jade
 
-### 自然
-10. 云雾
-11. 天空
-12. 树叶
-13. 丁达尔
-14. 沙漠
-15. 花草
+### 自然 / Nature
+10. 云雾 / Clouds and Fog
+11. 天空 / Sky
+12. 树叶 / Leaves
+13. 丁达尔 / God Ray
+14. 沙漠 / Desert
+15. 花草 / Plants
 
-### 水
-20. 湖面
-21. 河流
-22. 海洋
-23. 水花
-24. 冰块
-25. 雪
+### 水 / Water
+20. 湖面 / Lake
+21. 河流 / River
+22. 海洋 / Sea
+24. 冰块 / Ice
+25. 雪 / Snow
 
-### 人体
-30. 皮肤
-31. 毛发
-32. 眼球
+### 人体 / Human
+30. 皮肤 / Skin
+31. 毛发 / Hair
+32. 眼球 / Eye Ball
 
-### 特效
-40. 火焰
-41. 水墨
+### 特效 / Effects
+40. 火焰 / Fire
+41. 水墨 / Ink
+42. 流体 / Fluid
+43. 水花 / Spray
 
-### 后处理
-90. 柔光/Bloom
-91. 景深/DoF
-92. SSR
-93. 蒸腾
+### 后处理 / Postprocesses
+90. 柔光 / Bloom
+91. 景深 / DoF
+92. 屏幕空间反射 / SSR
+93. 热扰动 / Heat Wave
+94. 屏幕空间 AO / SSAO
 
-### 100+ 卡通渲染
+### 100+ 卡通渲染 / Cartoon

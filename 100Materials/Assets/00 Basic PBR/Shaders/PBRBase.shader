@@ -136,4 +136,6 @@ Shader "Unlit/PBRBase"
             ENDCG
         }
     }
+    
+    Fallback "Mobile/Diffuse"
 }
