@@ -37,6 +37,8 @@
 42. 流体 / Fluid
 43. 水花 / Spray
 
+### 卡通渲染 / Cartoon
+
 ### 后处理 / Postprocesses
 90. 柔光 / Bloom
 91. 景深 / DoF
@@ -44,4 +46,5 @@
 93. 热扰动 / Heat Wave
 94. 屏幕空间 AO / SSAO
 
-### 100+ 卡通渲染 / Cartoon
+### 其他
+100. 隔墙扫描 / Scan Lines Behind Walls

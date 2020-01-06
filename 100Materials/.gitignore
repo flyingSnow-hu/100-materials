@@ -2,5 +2,7 @@ Library
 Temp
 .vscode
 *.sln
-Logs
-obj
+Logs/*
+obj/*
+Assets/_TerrainAutoUpgrade/
+*.csproj
